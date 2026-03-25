@@ -332,7 +332,7 @@ const TimelineView = () => {
             </div>
 
             {records.length === 0 ? (
-                <div className="bg-white p-8 rounded-xl text-center text-gray-500">
+                <div id="tour-reaction-bar" className="bg-white p-8 rounded-xl text-center text-gray-500">
                     まだ記録がありません。一番乗りで記録しましょう！
                 </div>
             ) : (

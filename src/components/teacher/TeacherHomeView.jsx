@@ -801,7 +801,7 @@ const TeacherHomeView = () => {
                                             <div className="flex justify-between items-start mb-2">
                                                 <div>
                                                     <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">
-                                                        {assignment.subject}
+                                                        {assignment.subject.replace(/（.*?）/, '')}
                                                     </span>
                                                     {assignment.dueDate && (
                                                         <span className="text-xs text-gray-400 ml-2">
@@ -911,7 +911,7 @@ const TeacherHomeView = () => {
                                             <div className="flex justify-between items-start mb-2">
                                                 <div>
                                                     <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded opacity-75">
-                                                        {assignment.subject}
+                                                        {assignment.subject.replace(/（.*?）/, '')}
                                                     </span>
                                                     {assignment.dueDate && (
                                                         <span className="text-xs text-gray-500 ml-2">

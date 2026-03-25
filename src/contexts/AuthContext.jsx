@@ -43,14 +43,21 @@ export const AuthProvider = ({ children }) => {
 
       if (userDoc.exists()) {
         const userData = userDoc.data();
-        setProfile(userData);
         
+        // Sanitize legacy subjects (remove standard/advanced labels)
+        if (userData.subjects && Array.isArray(userData.subjects)) {
+          userData.subjects = Array.from(new Set(userData.subjects.map(s => s.replace(/（.*?）/, ''))));
+        }
+
+        setProfile(userData);
+        // type・subjects が未設定の場合は ProfileSetup へ誘導する
         if (!isProfileComplete(userData)) {
           setNeedsProfileSetup(true);
         } else {
           setNeedsProfileSetup(false);
         }
       } else {
+        // 新規ユーザー：初期プロファイルは type/subjects が空なので ProfileSetup へ
         const initialProfile = createInitialProfile(firebaseUser);
         await setDoc(userDocRef, initialProfile);
         setProfile(initialProfile);

@@ -624,7 +624,7 @@ const AssignmentsSection = ({ user, profile, onAssignmentClick }) => {
                                         title="タップして学習記録を開始"
                                     >
                                         <div className="flex items-center gap-2 mb-0.5">
-                                            <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">{a.subject}</span>
+                                            <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">{a.subject.replace(/（.*?）/, '')}</span>
                                             {a.dueDate && <span className="text-xs text-gray-400">〆 {formatDate(a.dueDate)}</span>}
                                         </div>
                                         <div className="flex items-center gap-1.5">
@@ -671,7 +671,7 @@ const AssignmentsSection = ({ user, profile, onAssignmentClick }) => {
                                     </button>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-1.5">
-                                            <span className="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded">{a.subject}</span>
+                                            <span className="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded">{a.subject.replace(/（.*?）/, '')}</span>
                                             <span className="text-sm text-gray-400 line-through truncate">{a.content}</span>
                                         </div>
                                     </div>
@@ -722,7 +722,7 @@ const AssignmentsSection = ({ user, profile, onAssignmentClick }) => {
                                         </div>
                                         <div className="flex-1 min-w-0">
                                             <div className="flex items-center gap-2 mb-0.5">
-                                                <span className="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded">{a.subject}</span>
+                                                <span className="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-1.5 py-0.5 rounded">{a.subject.replace(/（.*?）/, '')}</span>
                                                 {a.dueDate && <span className="text-[10px] text-gray-400">〆 {formatDate(a.dueDate)}</span>}
                                             </div>
                                             <div className={`text-sm font-medium ${completedWithinDeadline ? 'text-gray-400 line-through' : 'text-gray-600'}`}>

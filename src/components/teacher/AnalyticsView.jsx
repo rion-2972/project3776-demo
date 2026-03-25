@@ -200,7 +200,7 @@ const AnalyticsView = () => {
             student.subjects.find(s => scienceSubjects.includes(s)) || null;
     }, []);
 
-    // 科目名を大分類にまとめる（例: 「数学（標準）」→「数学」、「化学基礎」→「化学」）
+    // 科目名を大分類にまとめる（例: 「化学基礎」→「化学」）
     const formatSubjectName = useCallback((subject) => {
         if (!subject) return 'その他';
         if (subject.includes('英語') || subject.includes('英論')) return '英語';

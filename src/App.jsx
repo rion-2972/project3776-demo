@@ -1,33 +1,58 @@
-import { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase";
+// src/App.js
+import React from 'react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { LanguageProvider } from './contexts/LanguageContext';
+import { EffectProvider } from './contexts/EffectContext';
+import Auth from './components/Auth';
+import ProfileSetup from './components/ProfileSetup';
+import StudentApp from './components/StudentApp';
+import TeacherApp from './components/TeacherApp';
 
-import StudentApp from "./components/StudentApp";
-import TeacherApp from "./components/TeacherApp";
-import LoginPage from "./components/LoginPage";
-
-function App() {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-    return () => unsubscribe();
-  }, []);
+const AppContent = () => {
+  const { user, profile, loading, needsProfileSetup } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-2xl font-bold text-indigo-600 mb-2">
+            Project 3776
+          </div>
+          <div className="text-gray-600">読み込み中...</div>
+        </div>
+      </div>
+    );
   }
 
+  // 未ログイン → ログイン画面
   if (!user) {
-    return <LoginPage />;
+    return <Auth />;
   }
 
-  // いったん仮で StudentApp
+  // 教員はプロファイル設定不要 → 直接ダッシュボードへ
+  if (profile?.role === 'teacher') {
+    return <TeacherApp />;
+  }
+
+  // 生徒：コース・科目未設定の場合は設定画面を表示
+  if (needsProfileSetup) {
+    return <ProfileSetup />;
+  }
+
   return <StudentApp />;
+};
+
+function App() {
+  return (
+    <AuthProvider>
+      <LanguageProvider>
+        <EffectProvider>
+          <AppContent />
+        </EffectProvider>
+      </LanguageProvider>
+    </AuthProvider>
+  );
 }
 
 export default App;
+

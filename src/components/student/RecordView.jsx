@@ -143,15 +143,6 @@ const RecordView = ({ preFillData, onPreFillApplied }) => {
 
     const specializedSubjects = getSpecializedSubjects();
 
-    // Get user's Math and English level subjects
-    const getUserLevelSubjects = () => {
-        const mathSubject = profile?.subjects?.find(s => s.startsWith('数学')) || '数学（標準）';
-        const englishSubject = profile?.subjects?.find(s => s.startsWith('英語')) || '英語（標準）';
-        return [mathSubject, englishSubject];
-    };
-
-    const userLevelSubjects = getUserLevelSubjects();
-
     // Handle Input Change (for text fields)
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -286,28 +277,34 @@ const RecordView = ({ preFillData, onPreFillApplied }) => {
             </div>
 
             <form onSubmit={handleSubmit} className="p-6 space-y-6">
-                {/* クイック入力サジェスト */}
-                {quickSuggestions.length > 0 && !record.subject && (
+                {/* クイック入力サジェスト（常にレンダリング：ツアーターゲット用） */}
+                {!record.subject && (
                     <div id="tour-quick-input">
                         <div className="flex items-center gap-1.5 mb-2">
                             <Zap className="w-3.5 h-3.5 text-amber-500" />
                             <span className="text-xs font-bold text-gray-400">クイック入力</span>
                         </div>
-                        <div className="flex flex-wrap gap-2">
-                            {quickSuggestions.map((s, i) => (
-                                <button
-                                    key={i}
-                                    type="button"
-                                    onClick={() => applyQuickSuggestion(s)}
-                                    className="flex items-center gap-1.5 px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-xl text-sm font-medium transition-all hover:shadow-sm active:scale-95"
-                                >
-                                    <History className="w-3 h-3 text-amber-500" />
-                                    <span className="text-xs font-bold text-amber-600">{s.subject?.replace(/（.*?）/, '')}</span>
-                                    <span className="text-gray-400">·</span>
-                                    <span>{s.task}</span>
-                                </button>
-                            ))}
-                        </div>
+                        {quickSuggestions.length > 0 ? (
+                            <div className="flex flex-wrap gap-2">
+                                {quickSuggestions.map((s, i) => (
+                                    <button
+                                        key={i}
+                                        type="button"
+                                        onClick={() => applyQuickSuggestion(s)}
+                                        className="flex items-center gap-1.5 px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-xl text-sm font-medium transition-all hover:shadow-sm active:scale-95"
+                                    >
+                                        <History className="w-3 h-3 text-amber-500" />
+                                        <span className="text-xs font-bold text-amber-600">{s.subject?.replace(/（.*?）/, '')}</span>
+                                        <span className="text-gray-400">·</span>
+                                        <span>{s.task}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        ) : (
+                            <p className="text-xs text-gray-400 bg-gray-50 rounded-xl px-3 py-2">
+                                学習を記録すると、よく使う科目・タスクがここにボタンで表示されます ⚡
+                            </p>
+                        )}
                     </div>
                 )}
 
@@ -346,30 +343,30 @@ const RecordView = ({ preFillData, onPreFillApplied }) => {
                                     古典
                                 </button>
                             )}
-                            {/* Math level subject */}
-                            {userLevelSubjects[0] && (
+                            {/* 数学 */}
+                            {SUBJECT_GROUPS.common.includes('数学') && (
                                 <button
                                     type="button"
-                                    onClick={() => handleSubjectSelect(userLevelSubjects[0])}
-                                    className={`py-2 px-1 rounded-lg text-sm font-medium transition ${record.subject === userLevelSubjects[0]
+                                    onClick={() => handleSubjectSelect('数学')}
+                                    className={`py-2 px-1 rounded-lg text-sm font-medium transition ${record.subject === '数学'
                                         ? 'bg-indigo-600 text-white shadow-md transform scale-105'
                                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                         }`}
                                 >
-                                    {userLevelSubjects[0].replace(/（.*?）/, '')}
+                                    数学
                                 </button>
                             )}
-                            {/* English level subject */}
-                            {userLevelSubjects[1] && (
+                            {/* 英語 */}
+                            {SUBJECT_GROUPS.common.includes('英語') && (
                                 <button
                                     type="button"
-                                    onClick={() => handleSubjectSelect(userLevelSubjects[1])}
-                                    className={`py-2 px-1 rounded-lg text-sm font-medium transition ${record.subject === userLevelSubjects[1]
+                                    onClick={() => handleSubjectSelect('英語')}
+                                    className={`py-2 px-1 rounded-lg text-sm font-medium transition ${record.subject === '英語'
                                         ? 'bg-indigo-600 text-white shadow-md transform scale-105'
                                         : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
                                         }`}
                                 >
-                                    {userLevelSubjects[1].replace(/（.*?）/, '')}
+                                    英語
                                 </button>
                             )}
                             {/* 地理 */}

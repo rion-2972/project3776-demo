@@ -11,7 +11,6 @@ import SettingsView from './student/SettingsView';
 import LanguageSettings from './student/LanguageSettings';
 import ReferenceBooksList from './student/ReferenceBooksList';
 import PastAssignmentsList from './student/PastAssignmentsList';
-import ClassSelectionSettings from './student/ClassSelectionSettings';
 import EffectSettings from './student/EffectSettings';
 import VersionHistoryView from './shared/VersionHistoryView';
 import UserGuideView from './student/UserGuideView';
@@ -39,10 +38,9 @@ const StudentApp = () => {
   const handleAssignmentClick = (assignment) => {
     let subjectToRecord = assignment.subject;
 
-    // If assignment is '英論', map it to user's English level
+    // If assignment is '英論', map it to '英語'
     if (assignment.subject === '英論') {
-      const userEnglish = profile?.subjects?.find(s => s.startsWith('英語'));
-      subjectToRecord = userEnglish || '英語（標準）';
+      subjectToRecord = '英語';
     }
 
     setPreFillData({
@@ -105,9 +103,6 @@ const StudentApp = () => {
     }
     if (activeView === 'pastAssignments') {
       return <PastAssignmentsList onBack={handleBackToSettings} />;
-    }
-    if (activeView === 'classSelection') {
-      return <ClassSelectionSettings onBack={handleBackToSettings} />;
     }
     if (activeView === 'effect') {
       return <EffectSettings onBack={handleBackToSettings} />;

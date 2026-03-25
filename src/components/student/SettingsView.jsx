@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowLeft, Globe, BookOpen, ClipboardList, LogOut, GraduationCap, Sparkles, History, Target } from 'lucide-react';
+import { ArrowLeft, Globe, BookOpen, ClipboardList, LogOut, Sparkles, History, Target } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLanguage } from '../../contexts/LanguageContext';
 
@@ -8,12 +8,6 @@ const SettingsView = ({ onBack, onNavigate }) => {
     const { t } = useLanguage();
 
     const menuItems = [
-        {
-            id: 'classSelection',
-            label: 'クラス選択',
-            icon: GraduationCap,
-            onClick: () => onNavigate('classSelection')
-        },
         {
             id: 'effect',
             label: 'エフェクト',
