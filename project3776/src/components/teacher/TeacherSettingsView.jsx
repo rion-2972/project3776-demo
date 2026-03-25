@@ -1,0 +1,75 @@
+import React from 'react';
+import { ArrowLeft, History, LogOut } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+
+const TeacherSettingsView = ({ onBack, onNavigate }) => {
+    const { signOut } = useAuth();
+
+    const menuItems = [
+        {
+            id: 'versionHistory',
+            label: 'バージョン履歴',
+            icon: History,
+            onClick: () => onNavigate('versionHistory')
+        },
+    ];
+
+    return (
+        <div className="min-h-screen bg-gray-50">
+            {/* ヘッダー */}
+            <div className="bg-white shadow-sm sticky top-0 z-10">
+                <div className="max-w-md mx-auto px-4 h-14 flex items-center gap-3">
+                    <button
+                        onClick={onBack}
+                        className="p-2 hover:bg-gray-100 rounded-full transition"
+                    >
+                        <ArrowLeft className="w-5 h-5 text-gray-700" />
+                    </button>
+                    <h1 className="text-lg font-bold text-gray-900">設定</h1>
+                </div>
+            </div>
+
+            <div className="max-w-md mx-auto px-4 pt-4">
+                {/* メニュー */}
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-4">
+                    {menuItems.map((item, index) => (
+                        <button
+                            key={item.id}
+                            onClick={item.onClick}
+                            className={`w-full flex items-center gap-4 p-4 hover:bg-gray-50 transition ${index < menuItems.length - 1 ? 'border-b border-gray-100' : ''
+                                }`}
+                        >
+                            <div className="p-2 bg-indigo-50 rounded-lg">
+                                <item.icon className="w-5 h-5 text-indigo-600" />
+                            </div>
+                            <span className="flex-1 text-left text-sm font-medium text-gray-900">
+                                {item.label}
+                            </span>
+                            <svg
+                                className="w-5 h-5 text-gray-400"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    ))}
+                </div>
+
+                {/* ログアウトボタン */}
+                <button
+                    onClick={signOut}
+                    className="w-full flex items-center justify-center gap-2 p-4 bg-white rounded-xl shadow-sm border border-gray-100 hover:bg-red-50 hover:border-red-200 transition group"
+                >
+                    <LogOut className="w-5 h-5 text-gray-600 group-hover:text-red-600 transition" />
+                    <span className="text-sm font-bold text-gray-900 group-hover:text-red-600 transition">
+                        ログアウト
+                    </span>
+                </button>
+            </div>
+        </div>
+    );
+};
+
+export default TeacherSettingsView;
